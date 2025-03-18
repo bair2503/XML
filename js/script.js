@@ -1,164 +1,121 @@
-// Переменные для хранения состояния калькулятора
-let currentOperand = '';
-let previousOperand = '';
-let operation = undefined;
+// script.js
 
-// Элементы DOM
-const resultElement = document.getElementById('result');
-const themeSwitcher = document.getElementById('theme-switcher');
+let currentInput = '';
+let operator = '';
+let firstOperand = null;
 
-// Функция для обновления результата на экране
-function updateResult() {
-    resultElement.innerText = currentOperand || '0';
+const resultDisplay = document.getElementById('result');
+const equalButton = document.getElementById('btn_op_equal'); // Получаем кнопку "="
+
+function updateDisplay() {
+    resultDisplay.textContent = currentInput || '0';
 }
 
-// Функция для добавления цифры
-function appendDigit(digit) {
-    if (digit === '.' && currentOperand.includes('.')) return; // Проверка на дублирование точки
-    currentOperand = currentOperand.toString() + digit.toString();
-    updateResult();
+function clear() {
+    currentInput = '';
+    operator = '';
+    firstOperand = null;
+    updateDisplay();
 }
 
-// Функция для выбора операции
-function chooseOperation(op) {
-    if (currentOperand === '') return;
-    if (previousOperand !== '') {
-        calculate();
+function appendNumber(number) {
+    if (currentInput.length < 10) { // Ограничение на количество цифр
+        currentInput += number;
+        updateDisplay();
     }
-    operation = op;
-    previousOperand = currentOperand;
-    currentOperand = '';
 }
 
-// Функция для вычисления результата
-function calculate() {
-    let computation;
-    const prev = parseFloat(previousOperand);
-    const current = parseFloat(currentOperand);
-    if (isNaN(prev)) return;
+function setOperator(op) {
+    if (currentInput === '') return; // Ничего не делать, если нет ввода
+    if (firstOperand === null) {
+        firstOperand = parseFloat(currentInput);
+    } else if (operator) {
+        firstOperand = operate(operator, firstOperand, parseFloat(currentInput));
+    }
+    operator = op;
+    currentInput = '';
+}
 
-    if (operation === '/' && current === 0) {
-        currentOperand = 'Ошибка'; // Защита от деления на ноль
-        updateResult();
+function operate(op, a, b) {
+    switch (op) {
+        case '+':
+            return a + b;
+        case '-':
+            return a - b;
+        case 'x':
+            return a * b;
+        case '/':
+            return a / b;
+        case '%':
+            return a % b;
+        default:
+            return b;
+    }
+}
+
+function calculate() {
+    if (firstOperand === null || currentInput === '') return;
+    currentInput = operate(operator, firstOperand, parseFloat(currentInput)).toString();
+    operator = '';
+    firstOperand = null;
+    updateDisplay();
+}
+
+function calculateDiceProbability() {
+    const inputNumber = parseInt(currentInput);
+    if (inputNumber < 2 || inputNumber > 12) {
+        alert("Введите число от 2 до 12");
         return;
     }
 
-    switch (operation) {
-        case '+':
-            computation = prev + current;
-            break;
-        case '-':
-            computation = prev - current;
-            break;
-        case 'x':
-            computation = prev * current;
-            break;
-        case '/':
-            computation = prev / current;
-            break;
-        default:
-            return;
-    }
+    // Вероятности для двух кубиков
+    const probabilities = {
+        2: 1/36,
+        3: 2/36,
+        4: 3/36,
+        5: 4/36,
+        6: 5/36,
+        7: 6/36,
+        8: 5/36,
+        9: 4/36,
+        10: 3/36,
+        11: 2/36,
+        12: 1/36
+    };
 
-    currentOperand = computation.toString();
-    // Ограничение длины результата
-    if (currentOperand.length > 10) {
-        currentOperand = parseFloat(currentOperand).toExponential(2);
-    }
+    const probability = probabilities[inputNumber];
+    currentInput = probability.toFixed(4); // Форматируем до 4 знаков после запятой
+    updateDisplay();
 
-    operation = undefined;
-    previousOperand = '';
-    updateResult();
-}
-
-function appendDigit(digit) {
-    if (digit === '.' && currentOperand.includes('.')) return;
-    currentOperand = currentOperand.toString() + digit.toString();
-
-    // Ограничение длины ввода
-    if (currentOperand.length > 10) {
-        currentOperand = parseFloat(currentOperand).toExponential(2);
-    }
-
-    updateResult();
-}
-
-// Функция для очистки калькулятора
-function clear() {
-    currentOperand = '';
-    previousOperand = '';
-    operation = undefined;
-    updateResult();
-}
-
-// Функция для изменения знака числа
-function changeSign() {
-    currentOperand = (parseFloat(currentOperand) * -1).toString();
-    updateResult();
-}
-
-// Функция для вычисления процента
-function percentage() {
-    currentOperand = (parseFloat(currentOperand)) / 100;
-    updateResult();
+    // Изменяем цвет кнопки "="
+    equalButton.style.backgroundColor = `rgba(252, 192, 0, ${probability})`; // Умножаем на #fc0
 }
 
 // Обработчики событий для кнопок
-document.querySelectorAll('.my-btn').forEach(button => {
-    button.addEventListener('click', () => {
-        if (button.id.startsWith('btn_digit')) {
-            appendDigit(button.innerText);
-        } else if (button.id.startsWith('btn_op')) {
-            if (button.id === 'btn_op_clear') {
-                clear();
-            } else if (button.id === 'btn_op_sign') {
-                changeSign();
-            } else if (button.id === 'btn_op_percent') {
-                percentage();
-            } else if (button.id === 'btn_op_equal') {
-                calculate();
-            } else {
-                chooseOperation(button.innerText);
-            }
-        }
-    });
+document.getElementById('btn_op_clear').addEventListener('click', clear);
+document.getElementById('btn_op_sign').addEventListener('click', () => {
+    currentInput = (parseFloat(currentInput) * -1).toString();
+    updateDisplay();
 });
-
-// Переключение темы
-themeSwitcher.addEventListener('click', () => {
-    const root = document.documentElement;
-    const theme = root.getAttribute('data-theme');
-
-    if (theme === 'dark') {
-        root.setAttribute('data-theme', 'light');
-        themeSwitcher.textContent = '🌙';
-        localStorage.setItem('theme', 'light');
-    } else {
-        root.setAttribute('data-theme', 'dark');
-        themeSwitcher.textContent = '☀️';
-        localStorage.setItem('theme', 'dark');
-    }
+document.getElementById('btn_op_percent').addEventListener('click', () => {
+    currentInput = (parseFloat(currentInput) / 100).toString();
+    updateDisplay();
 });
+document.getElementById('btn_op_div').addEventListener('click', () => setOperator('/'));
+document.getElementById('btn_op_mult').addEventListener('click', () => setOperator('x'));
+document.getElementById('btn_op_minus').addEventListener('click', () => setOperator('-'));
+document.getElementById('btn_op_plus').addEventListener('click', () => setOperator('+'));
+document.getElementById('btn_op_equal').addEventListener('click', calculate);
 
-// Применение сохраненной темы при загрузке страницы
-window.addEventListener('load', () => {
-    const savedTheme = localStorage.getItem('theme') || 'light';
-    document.documentElement.setAttribute('data-theme', savedTheme);
-    themeSwitcher.textContent = savedTheme === 'dark' ? '☀️' : '🌙';
-});
+document.getElementById('btn_op_dice').addEventListener('click', calculateDiceProbability); // Обработчик для кнопки 🎲
 
-// Работа калькулятора с клавиатуры
-document.addEventListener('keydown', (event) => {
-    if (!isNaN(event.key) || event.key === '.') {
-        appendDigit(event.key);
-    } else if (['+', '-', '*', '/'].includes(event.key)) {
-        chooseOperation(event.key === '*' ? 'x' : event.key);
-    } else if (event.key === 'Enter') {
-        calculate();
-    } else if (event.key === 'Backspace') {
-        currentOperand = currentOperand.slice(0, -1);
-        updateResult();
-    } else if (event.key === 'Escape') {
-        clear();
+for (let i = 0; i <= 9; i++) {
+    document.getElementById(`btn_digit_${i}`).addEventListener('click', () => appendNumber(i.toString()));
+}
+
+document.getElementById('btn_digit_dot').addEventListener('click', () => {
+    if (!currentInput.includes('.')) {
+        currentInput += '.';
+        updateDisplay();
     }
 });

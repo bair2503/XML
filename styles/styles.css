@@ -22,9 +22,9 @@
 /* опишем базовый стиль кнопки калькулятора */
 .my-btn {
   font-weight: 300;
-  margin-right: 5px;
+  margin-right: 6px;
   /* задаем отступ от кнопки справа */
-  margin-top: 5px;
+  margin-top: 6px;
   /* задаем отступ от кнопки сверху*/
   width: 50px;
   /* задаем ширину кнопки */
@@ -80,7 +80,7 @@
 
 /* селектор для кнопки расчета выражения (=) */
 .my-btn.execute {
-  width: 110px;
+  width: 50px;
   /* Стандартная ширина кнопки */
   height: 50px;
   /* Высота такая же, как у обычных кнопок */
@@ -156,10 +156,6 @@
   --button-bg: #424242;
   --button-bg-hover: #555;
   --button-primary-bg: #2196f3;
-  
-  
- 
-  
 }
 
 /* Переменные для темной темы */
@@ -192,7 +188,6 @@ body {
   font-size: 20px;
 }
 
-
 /* Стили для аккордеона */
 details {
   margin: 6px;
@@ -201,7 +196,6 @@ details {
   cursor: pointer;
   position: relative;
 }
-
 
 summary {
   padding: 13px 140px 13px 16px;
@@ -247,4 +241,5 @@ mark {
   padding: 4px 10px;
   border-radius: 8px;
 }
+
 
