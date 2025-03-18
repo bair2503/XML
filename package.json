@@ -1,0 +1,27 @@
+{
+  "name": "my-project",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "bairgatapov93@mail.ru",
+  "license": "MIT",
+  "description": "Мой первый проект",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bair2503/XML.git"
+  },
+  "keywords": [
+    "example",
+    "project"
+  ],
+  "bugs": {
+    "url": "https://github.com/bair2503/XML/issues"
+  },
+  "homepage": "https://github.com/bair2503/XML#readme",
+  "dependencies": {
+    "bootstrap": "^5.3.3",
+    "express": "^4.21.2"
+  }
+}

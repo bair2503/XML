@@ -1,245 +1,192 @@
-.calculator {
-  width: 300px;
-  /* Ширина калькулятора */
-  margin: 50px auto;
-  /* Центрирование по горизонтали */
-  padding: 24px;
-  background-color: #121212;
-  /* Темный фон */
-  border-radius: 16px;
-  display: flex;
-  /* Использование Flexbox для центрирования по вертикали */
-  justify-content: center;
-  /* Горизонтальное выравнивание содержимого */
-  align-items: center;
-  /* Вертикальное выравнивание содержимого */
-  min-height: 10vh;
-  /* Минимальная высота 100% высоты окна браузера */
-  flex-direction: column;
-  /* Размещение элементов вертикально */
-}
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  
+  body {
+    font-family: -apple-system, system-ui, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, sans-serif, Helvetica Neue, Helvetica, roboto, arial;
+      
+  }
+  
 
-/* опишем базовый стиль кнопки калькулятора */
-.my-btn {
-  font-weight: 300;
-  margin-right: 6px;
-  /* задаем отступ от кнопки справа */
-  margin-top: 6px;
-  /* задаем отступ от кнопки сверху*/
-  width: 50px;
-  /* задаем ширину кнопки */
-  height: 50px;
-  /* округляем кнопку */
-  border: none;
-  /* отключаем обводку */
-  background: gray;
-  /* задаем серый цвет кнопки */
-  color: white;
-  /* задаем белый цвет текста внутри кнопки */
-  font-size: 1.5rem;
-  /* увеличим размер шрифта */
-  font-family: 'Roboto Mono', monospace;
-  /* сменим шрифт */
-  cursor: pointer;
-  /* при наведении на кнопку курсор будет изменен
-                                  со стрелки на 'указательный палец' */
-  user-select: none;
-  /* отключаем возможность выделить текст внутри кнопки */
-  transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+  
+  .header {
+    background-color: #f5f5f5;
+    padding: 20px 0;
+  }
+  
+  .img_logo{
+    width: 6%;
+    height: 6%;
+    float: left;
+    font-size: 24px;
+    text-decoration: none;
+    color: black;
+    padding: 21px 0px;
+    margin-left: 8%;
+    display: flex;
+    font-family: Impact;
+    font-weight: 700;
+    justify-content: left;
+  }
+  
+  .search-form {
+    display: flex;
+    justify-content: center;
+    padding: 20px;
+  }
+  
+  .search-container {
+    position: relative;
+    width: calc(80% - 12px);
+  }
+  
+  .search-input {
+    width: 100%;
+    padding: 10px 100px 10px 16px;
+    border: 2px solid #fc0;
+    border-radius: 20px;
+    font-size: 16px;
+  }
+  
+  .search-button {
+    font-family: -apple-system, system-ui, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, sans-serif, Helvetica Neue, Helvetica, roboto, arial;
+    font-weight: 600;
+    height: 40px;
+    position: absolute;
+    right: 5px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: #fc0;
+    border: none;
+    border-radius: 15px;
+    cursor: pointer;
+    width: 84px;
+  }
+  
+  .card{
+    width: 100%;
+    height: 100%;
+    border-radius: 20px;
+    cursor: pointer;
+  }
+  
+  .card-titles {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 0;
+    margin: 0;
+    width: 100%;
+  }
+  
+  .card-texts{
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    white-space: normal;
+    text-overflow: ellipsis;
+    word-break: break-word;
+    line-clamp: 3;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+        font-weight: 400;
+          -webkit-font-smoothing: antialiased;
+          font-size: 16px;
+          line-height: 20px;
+  }
+  
+  .footer {
+    background-color: #333;
+    color: white;
+    padding: 25px 0;
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  .btn{
+    font-family: -apple-system, system-ui, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, sans-serif, Helvetica Neue, Helvetica, roboto, arial;
+    font-size: 18px;
+    background: #fc0;
+    border: none;
+    border-radius: 15px;
+    cursor: pointer;
+    color:#121212;
+    font-family: YS Text, Helvetica, Arial, sans-serif;
+      
+  }
+  
+  .imgs{  
+    cursor: pointer;
+    border-radius: 20px;
+    width: 100%;          
+    max-width: 300px;
+    height: 200px;
+    display: block;
+    object-fit: cover;
+    padding-bottom: 10.25%;
+  }
 
-}
+  .row{
+    padding-top: 8px;
+    border-top-left-radius: 24px;
+    border-top-right-radius: 24px;
+  }
 
-/* hover - это состояние элемента, когда на него наведен курсор */
-.my-btn:hover {
-  background: #A5A5A5;
-  transform: translateY(-1px);
-  /* при наведение курсора на кнопку, она будет окрашена в серый */
-}
+  .products {
+    border-radius: 20px;
+    width: calc(100% / 3);   
+    flex: 0 0 24%; /* Задаем ширину колонки */
+    margin-bottom: 10px; /* Отступ между строками */  
+  }
 
-/* active - это состояние активации элемента. В случае кнопки - нажатие на нее */
-.my-btn:active {
-  filter: brightness(90%);
-  /* увеличим интенсивность цвета для эффекта вспышки */
-}
+  .h1{
+    margin-left: 60px;
+    margin-bottom: 20px;
+    color:#6e6b6b;
+    font-family: -apple-system, system-ui, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, sans-serif, Helvetica Neue, Helvetica, roboto, arial;
+    font-weight: 700;
+  }
 
-/* селектор для кнопок первостепенных операций */
-.my-btn.primary {
-  background: #fc0;
-  color: white;
-  border: none;
-  font-weight: 500;
-  /* цвет кнопки ;желтый */
-}
-
-/* селектор для кнопок второстепенных операций */
-.my-btn.secondary {
-  background: #AF002A;
-  color: white;
-  /* цвет кнопки сервый */
-}
-
-/* селектор для кнопки расчета выражения (=) */
-.my-btn.execute {
-  width: 50px;
-  /* Стандартная ширина кнопки */
-  height: 50px;
-  /* Высота такая же, как у обычных кнопок */
-  background: #fc0;
-}
-
-/* селектор для поля вывода результата */
-.result {
-  font-weight: 10;
-  width: 219px;
-  height: 70px;
-  margin-bottom: 15px;
-  /* отступ снизу */
-  padding-right: 10px;
-  /* выступ справа */
-  background: #fff;
-  /* цвет можно задавать и таким образом */
-  text-align: right;
-  /* примагнитим текст к правой стороне */
-  color: var(--zen-text);
-  /* цвет текста белый */
-  font-size: 1.5rem;
-  border-radius: 10px;
-  display: flex;
-  align-items: center;
-  /* Выравнивание текста по центру по вертикали */
-  justify-content: flex-end;
-  /* Выравнивание текста по правому краю */
-}
-
-.signature {
-  text-align: center;
-  /* Центруем текст */
-  font-size: 14px;
-  /* Размер шрифта */
-  color: #777;
-  /* Серый цвет текста */
-  margin-top: 20px;
-  /* Отступ сверху для отделения от основного содержимого */
-  font-family: 'Roboto Mono', monospace;
-  /* Используем тот же шрифт, что и для кнопок */
-  font-style: italic;
-  /* Курсив для придания особого акцента */
-  opacity: 0.8;
-  /* Немного уменьшаем непрозрачность для легкого эффекта */
-}
-
-#theme-switcher {
-  position: absolute;
-  /* Позволяет разместить кнопку в любом месте */
-  top: 10px;
-  /* Расположение вверху */
-  right: 10px;
-  /* Расположение справа */
-  font-size: 22px;
-  /* Размер иконки */
-  background: transparent;
-  /* Прозрачный фон */
-  border: none;
-  /* Без рамки */
-  cursor: pointer;
-  /* Курсор меняет вид на "указатель" */
-  z-index: 999;
-  /* На переднем плане */
-}
-
-/* Переменные для светлой темы */
-:root {
-  --bg-primary: #f0f0f0;
-  --bg-secondary: #f0f2f3;;
-  --bg-accent: #007bff;
-  --text-color: #222;
-  --button-bg: #424242;
-  --button-bg-hover: #555;
-  --button-primary-bg: #2196f3;
-}
-
-/* Переменные для темной темы */
-[data-theme='dark'] {
-  --bg-primary: #2c2c2e;
-}
-
-body {
-  font-family: Arial, Helvetica, Arial Unicode MS, sans-serif;
-  background-color: var(--bg-primary);
-}
-
-#github-btn {
-  position: absolute;
-  top: 10px;
-  left: 15px;
-}
-
-#github-btn button {
-  background-color: #fc0;
-  color: #000;
-  height: 40px;
-  line-height: 24px;
-  margin: auto;
-  padding: 8px;
-  position: absolute;
-  border: none;
-  border-radius: 10px;
-  font-family:Arial, Helvetica, Arial Unicode MS, sans-serif;
-  font-size: 20px;
-}
-
-/* Стили для аккордеона */
-details {
-  margin: 6px;
-  border: 3px solid #fc0;
-  border-radius: 18px;
-  cursor: pointer;
-  position: relative;
-}
-
-summary {
-  padding: 13px 140px 13px 16px;
-  border-radius: 14px;
-  color: #000;
-  background: linear-gradient(#fff, #fff);
-  list-style: none;
-}
-
-summary::after {
-  content: "▼";
-  position: absolute;
-  right: 20px;
-  color: #000;
-}
-
-details p {
-  background: white;
-  color: #000;
-  margin: 6px;
-  border-radius: 14px;
-}
-
-/* Стили для блока цели */
-.lab-purpose {
-  padding: 13px 140px 13px 16px;
-  background: linear-gradient(145deg, #fc0, #fc0);
-  margin: 6px;
-  border: 3px solid #fc0;
-  border-radius: 18px;
-}
-
-.lab-purpose p {
-  font-size: 20px;
-  line-height: 1.6;
-  color: #000;
-  margin: 0;
-}
-
-mark {
-  background: linear-gradient(120deg, #ff3347, #fc0);
-  color: #000;
-  padding: 4px 10px;
-  border-radius: 8px;
-}
+  .product-prod{
+    display: block;
+    unicode-bidi: isolate;
+    min-width: 1024px;
+    min-height: 100vh;
+  }
 
 
+  .card-title{
+    margin-bottom: 20px;
+    word-wrap: break-word;
+    letter-spacing: .36px;
+    color: red;
+    color: var(--zenColorTextPrimary);
+    margin-top: 0;
+    margin-bottom: 8px;
+    font-family: -apple-system, system-ui, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, sans-serif, Helvetica Neue, Helvetica, roboto, arial;
+    font-weight: 700;
+    -webkit-font-smoothing: antialiased;
+    font-size: 36px;
+    line-height: 40px;
+  }
+
+  .card-text{
+    width: 100%;
+      /* Задайте ширину */
+      margin: 0 auto;
+      /* Автоматические отступы слева/справа */
+
+  }
+
+  .img{
+    position: center;
+    z-index: 1;
+    max-width: 100%;
+    max-height: 100%;
+    overflow-clip-margin: content-box;
+    overflow: clip;
+  }
