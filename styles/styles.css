@@ -29,8 +29,6 @@
   width: 50px;
   /* задаем ширину кнопки */
   height: 50px;
-  /* задаем высоту кнопки */
-  border: 1px solid var(--zen-border);;
   /* округляем кнопку */
   border: none;
   /* отключаем обводку */
@@ -105,9 +103,7 @@
   color: var(--zen-text);
   /* цвет текста белый */
   font-size: 1.5rem;
-  font-family: var(--font-family);
   border-radius: 10px;
-  border-bottom: 1px solid var(--zen-border);
   display: flex;
   align-items: center;
   /* Выравнивание текста по центру по вертикали */
@@ -160,25 +156,15 @@
   --button-bg: #424242;
   --button-bg-hover: #555;
   --button-primary-bg: #2196f3;
-  --button-primary-bg-hover: #1976d2;
-  --button-secondary-bg: #424242;
-  --button-secondary-bg-hover: #555;
-  --result-bg: #e0e0e0;
+  
+  
+ 
+  
 }
 
 /* Переменные для темной темы */
 [data-theme='dark'] {
-  --bg-primary: #111112;
-  --bg-secondary: #1e1e1e;
-  --text-color: #ddd;
-  --button-bg: #191919;;
-  --zen-text: #111112;
-  --button-bg-hover: #444;
-  --button-primary-bg: #1976d2;
-  --button-primary-bg-hover: #2196f3;
-  --button-secondary-bg: #333;
-  --button-secondary-bg-hover: #444;
-  --result-bg: #333;
+  --bg-primary: #2c2c2e;
 }
 
 body {
@@ -189,7 +175,7 @@ body {
 #github-btn {
   position: absolute;
   top: 10px;
-  left: 10px;
+  left: 15px;
 }
 
 #github-btn button {
@@ -203,12 +189,9 @@ body {
   border: none;
   border-radius: 10px;
   font-family:Arial, Helvetica, Arial Unicode MS, sans-serif;
+  font-size: 20px;
 }
 
-#github-btn button:hover {
-  background-color: #FF6B6B;
-  /* Цвет при наведении */
-}
 
 /* Стили для аккордеона */
 details {
@@ -264,5 +247,4 @@ mark {
   padding: 4px 10px;
   border-radius: 8px;
 }
-
 
