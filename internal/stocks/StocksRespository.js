@@ -1,25 +1,28 @@
+//iternal/stocks/StocksRespositiry
 const { DBConnector } = require('../../modules/DBConnector');
 
 class StocksRepository {
     static db = new DBConnector('stocks.json');
 
-    static read() {
-        return JSON.parse(this.db.readFile());
+    static async read() {
+        const data = await this.db.readFile();
+        return data;  // Данные уже в формате массива объектов
     }
 
-    static write(data) {
-        this.db.writeFile(data);
+    static async write(data) {
+        await this.db.writeFile(data);
     }
 
-    static insert(stock) {
-        return this.db.insert(stock);
+    static async insert(stock) {
+        return await this.db.insert(stock);
     }
 
-    static delete(stockId) {
-        return this.db.delete(stockId);
+    static async delete(stockId) {
+        return await this.db.delete(stockId);
     }
 }
 
 module.exports = {
     StocksRepository,
 };
+

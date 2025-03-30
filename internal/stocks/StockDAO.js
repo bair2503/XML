@@ -1,21 +1,43 @@
+//iternal/stocks/StockDAO.js
 const { StocksRepository } = require('./StocksRespository');
 
+
 class StockDAO {
-    static findById(id) {
-        const stocks = StocksRepository.read();
-        return stocks.find(stock => stock.id === id) || null;
+    static async findById(id) {
+        const stocks = await StocksRepository.read();
+        return stocks.find(stock => stock.id === Number(id)) || null;
     }
 
-    static find() {
-        return StocksRepository.read();
+    static async find() {
+        return await StocksRepository.read();
     }
 
-    static insert(stock) {
-        return StocksRepository.insert(stock);
+    static async insert(stock) {
+        return await StocksRepository.insert(stock);
     }
 
-    static delete(id) {
-        return StocksRepository.delete(id);
+    static async update(id, updatedStock) {
+        let stocks = await StocksRepository.read();
+        const index = stocks.findIndex(stock => stock.id === Number(id));
+
+        if (index === -1) {
+            throw new Error(`Акция с ID ${id} не найдена`);
+        }
+
+        stocks[index] = { ...stocks[index], ...updatedStock };
+        await StocksRepository.write(stocks);
+        return stocks[index];
+    }
+
+    static async delete(id) {
+        let stocks = await StocksRepository.read();
+        const index = stocks.findIndex(stock => stock.id === Number(id));
+
+        if (index === -1) {
+            throw new Error(`Акция с ID ${id} не найдена`);
+        }
+
+        return await StocksRepository.delete(id);
     }
 }
 
