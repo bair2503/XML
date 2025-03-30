@@ -1,4 +1,3 @@
-// pages/product/index.js
 import { ProductComponent } from "../../components/product/index.js";
 import { BackButtonComponent } from "../../components/back-button/index.js";
 import { MainPage } from "../main/index.js";
@@ -29,7 +28,7 @@ export class ProductPage {
     getHTML() {
         return `
         <button id="backButton" class="btn-product btn-primary">Назад</button>
-            <div id="main-page"class="row me-5 ms-5" ></div>
+            <div id="main-page" class="row me-5 ms-5" ></div>
         `;
     }
 
@@ -39,7 +38,7 @@ export class ProductPage {
         history.pushState(null, "", "/");
     }
 
-    render() {
+    async render() {
         this.parent.innerHTML = '';  // Очищаем родительский контейнер перед вставкой нового контента
 
         const html = this.getHTML();
@@ -50,8 +49,9 @@ export class ProductPage {
             backButton.addEventListener('click', this.clickBack.bind(this));
         }
 
-        // Получаем данные товара и отображаем их
-        this.getData().then(data => {
+        try {
+            // Получаем данные товара и отображаем их
+            const data = await this.getData();
             const productContent = document.getElementById('main-page');
             if (data && productContent) {
                 // Передаем данные в компонент ProductComponent для рендеринга
@@ -61,8 +61,8 @@ export class ProductPage {
                 console.error("Ошибка загрузки данных или ошибка отображения.");
                 productContent.innerHTML = "<p>Ошибка при загрузке данных товара.</p>";
             }
-        }).catch(error => {
+        } catch (error) {
             console.error("Ошибка при получении данных товара:", error);
-        });
+        }
     }
 }

@@ -18,17 +18,27 @@ export class ProductCardComponent {
     }
 
     render(data, listener) {
-        const html = this.getHTML(data);
-        this.parent.insertAdjacentHTML('beforeend', html);
+        return new Promise((resolve, reject) => {
+            try {
+                const html = this.getHTML(data);
+                this.parent.insertAdjacentHTML('beforeend', html);
 
-        // Добавляем обработчик клика на карточку
-        const card = this.parent.querySelector(`.cards[data-id="${data.id}"]`);
-        if (card) {
-            card.addEventListener('click', (event) => {
-                const cardId = event.currentTarget.dataset.id;
-                console.log("Клик на карточку с ID:", cardId);
-                listener(cardId); // Вызываем listener с ID товара
-            });
-        }
+                // Добавляем обработчик клика на карточку
+                const card = this.parent.querySelector(`.cards[data-id="${data.id}"]`);
+                if (card) {
+                    card.addEventListener('click', (event) => {
+                        const cardId = event.currentTarget.dataset.id;
+                        console.log("Клик на карточку с ID:", cardId);
+                        listener(cardId); // Вызываем listener с ID товара
+                    });
+                }
+
+                // Ожидаем успешного завершения операции рендеринга
+                resolve('Карточка успешно отрендерена');
+            } catch (error) {
+                // В случае ошибки отклоняем промис
+                reject('Ошибка при рендеринге карточки');
+            }
+        });
     }
 }

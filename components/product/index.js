@@ -17,7 +17,17 @@ export class ProductComponent {
     }
 
     render(data) {
-        const html = this.getHTML(data);
-        this.parent.insertAdjacentHTML('beforeend', html);
+        return new Promise((resolve, reject) => {
+            try {
+                const html = this.getHTML(data);
+                this.parent.insertAdjacentHTML('beforeend', html);
+
+                // После успешного рендеринга вызываем resolve
+                resolve('Карточка продукта успешно отрендерена');
+            } catch (error) {
+                // В случае ошибки отклоняем промис
+                reject('Ошибка при рендеринге карточки продукта');
+            }
+        });
     }
 }

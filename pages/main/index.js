@@ -13,20 +13,20 @@ export class MainPage {
         return document.getElementById('root'); // Изменено с 'main-page' на 'root'
     }
 
-    getData(callback, page = 1, limit = 3) {
-        fetch(`http://localhost:8000/stocks?page=${page}&limit=${limit}`)
-            .then(response => response.json())
-            .then(data => {
-                if (data && Array.isArray(data)) {
-                    this.totalItems = data.length;
-                    callback(null, data);
-                } else {
-                    callback("Ошибка загрузки данных", null);
-                }
-            })
-            .catch(error => {
-                callback(`Ошибка при запросе данных: ${error.message}`, null);
-            });
+    async getData(page = 1, limit = 3) {
+        try {
+            const response = await fetch(`http://localhost:8000/stocks?page=${page}&limit=${limit}`);
+            const data = await response.json();
+
+            if (data && Array.isArray(data)) {
+                this.totalItems = data.length;
+                return data;
+            } else {
+                throw new Error('Ошибка загрузки данных');
+            }
+        } catch (error) {
+            throw new Error(`Ошибка при запросе данных: ${error.message}`);
+        }
     }
 
     clickCard(id) {
@@ -48,16 +48,14 @@ export class MainPage {
         });
     }
 
-    render() {
+    async render() {
         this.parent.innerHTML = '';
 
-        this.getData((error, data) => {
-            if (error) {
-                console.error(error);
-                return;
-            }
-
+        try {
+            const data = await this.getData(this.currentPage, this.limit);
             this.renderData(data);
-        }, this.currentPage, this.limit);
+        } catch (error) {
+            console.error(error);
+        }
     }
 }
