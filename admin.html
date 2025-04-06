@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Управление акциями</title>
+    <link rel="stylesheet" href="styles/admin.css">
+</head>
+<body>
+    <h1>Управление акциями</h1>
+
+   
+    <h2>Добавить новую акцию</h2>
+    <form id="addStockForm">
+        <!-- Добавлено поле для ручного ввода ID -->
+        <input type="number" id="newId" placeholder="ID акции" required>
+        <input type="text" id="title" placeholder="Название акции" required>
+        <input type="text" id="src" placeholder="URL изображения" required>
+        <textarea id="text" placeholder="Описание акции" required></textarea>
+        <button type="submit">Добавить акцию</button>
+    </form>
+
+    <h2>Редактировать или удалить акцию</h2>
+    <input type="number" id="stockId" placeholder="ID акции" required>
+    <button id="fetchStockButton">Загрузить акцию</button>
+    <button id="deleteStockButton">Удалить акцию</button>
+
+    <div id="editStockSection" style="display: none;">
+        <h3>Редактировать акцию</h3>
+        <input type="text" id="editTitle" placeholder="Название акции" required>
+        <input type="text" id="editSrc" placeholder="URL изображения" required>
+        <textarea id="editText" placeholder="Описание акции" required></textarea>
+        <button id="updateStockButton">Обновить акцию</button>
+    </div>
+
+    <script>
+        document.getElementById('addStockForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const stock = {
+                id: parseInt(document.getElementById('newId').value), // Добавляем ID
+                title: document.getElementById('title').value,
+                src: document.getElementById('src').value,
+                text: document.getElementById('text').value
+            };
+
+            const response = await fetch('http://localhost:8000/stocks', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(stock)
+            });
+
+            if (response.ok) {
+                alert('Акция добавлена!');
+                document.getElementById('addStockForm').reset();
+            } else {
+                alert('Ошибка при добавлении акции');
+            }
+        });
+
+        document.getElementById('fetchStockButton').addEventListener('click', async () => {
+            const id = document.getElementById('stockId').value;
+            const response = await fetch(`http://localhost:8000/stocks/${id}`);
+
+            if (response.ok) {
+                const stock = await response.json();
+                document.getElementById('editTitle').value = stock.title;
+                document.getElementById('editSrc').value = stock.src;
+                document.getElementById('editText').value = stock.text;
+                document.getElementById('editStockSection').style.display = 'block';
+            } else {
+                alert('Акция не найдена');
+            }
+        });
+
+        document.getElementById('updateStockButton').addEventListener('click', async () => {
+            const id = document.getElementById('stockId').value;
+            const updatedStock = {
+                title: document.getElementById('editTitle').value,
+                src: document.getElementById('editSrc').value,
+                text: document.getElementById('editText').value
+            };
+
+            const response = await fetch(`http://localhost:8000/stocks/${id}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(updatedStock)
+            });
+
+            if (response.ok) {
+                alert('Акция обновлена!');
+                document.getElementById('editStockSection').style.display = 'none';
+                document.getElementById('stockId').value = '';
+            } else {
+                alert('Ошибка при обновлении акции');
+            }
+        });
+
+        document.getElementById('deleteStockButton').addEventListener('click', async () => {
+            const id = document.getElementById('stockId').value;
+            const response = await fetch(`http://localhost:8000/stocks/${id}`, {
+                method: 'DELETE'
+            });
+
+            if (response.ok) {
+                alert('Акция удалена!');
+                document.getElementById('editStockSection').style.display = 'none';
+                document.getElementById('stockId').value = '';
+            } else {
+                alert('Ошибка при удалении акции');
+            }
+        });
+    </script>
+</body>
+</html>
